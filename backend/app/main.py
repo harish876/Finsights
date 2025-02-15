@@ -13,5 +13,4 @@ app.add_middleware(
     allow_methods=["*"], 
     allow_headers=["*"], 
 )
-print("Debug Flag - ",settings.debug)
 app.include_router(api_router, prefix=settings.api_v1_str)

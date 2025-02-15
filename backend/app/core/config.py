@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     api_v1_str: str
     
     class Config:
-        env_file = "/Users/harishgokul/Finsights/backend/.env"
+        env_file = "././.env"
         
         
 settings = Settings()
