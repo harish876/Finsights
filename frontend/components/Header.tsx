@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Github } from "lucide-react";
 
 const navItems = [
   { name: "Solutions", href: "#" },
@@ -19,7 +19,7 @@ export function Header() {
               Finsights
             </Link>
           </div>
-          <nav className="hidden md:flex space-x-10">
+          <nav className="hidden">
             {navItems.map((item) => (
               <Link
                 key={item.name}
@@ -33,7 +33,8 @@ export function Header() {
           </nav>
           <div className="hidden md:flex items-center justify-end md:flex-1 lg:w-0">
             <Button className="ml-8 bg-casca-500 hover:bg-casca-600 text-white">
-              Request a demo
+              <Github />
+              Github
             </Button>
           </div>
         </div>

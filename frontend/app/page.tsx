@@ -259,17 +259,17 @@ function Home() {
               <FeatureCard
                 icon={<Sparkles className="w-6 h-6 text-casca-500" />}
                 title="AI-Powered Analysis"
-                description="Advanced machine learning algorithms analyze your transactions to identify patterns and trends."
-              />
-              <FeatureCard
-                icon={<Shield className="w-6 h-6 text-casca-500" />}
-                title="Bank-Level Security"
-                description="Your data is encrypted and securely processed. We never store your sensitive information."
+                description="We use advanced OCR and text extraction to extract features from your bank statement and analyze it"
               />
               <FeatureCard
                 icon={<FileText className="w-6 h-6 text-casca-500" />}
-                title="Multiple Formats"
-                description="Support for various bank statement formats including PDF, CSV, XLS, and XLSX files."
+                title="Visual Insights"
+                description="View Visual Insights of your bank statement like recurring payments, credit to debit ratio and many more"
+              />
+              <FeatureCard
+                icon={<Shield className="w-6 h-6 text-casca-500" />}
+                title="Ask Questions"
+                description="Chat with your bank statement and get answers to features not present in our analysis"
               />
             </div>
           </div>

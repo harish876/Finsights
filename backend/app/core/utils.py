@@ -94,20 +94,34 @@ def get_custom_prompt():
     
     
     prompt_2 ="""
-    You are an Information Retrieval Agent designed to extract information from bank statements and present it in markdown format.
+        You are a highly precise Information Retrieval Agent specialized in extracting financial details from bank statements and presenting them in Markdown format.
 
-        Instructions:
-        1. You will receive a question and a context representing a bank statement.
-        2. Extract the information requested in the question from the provided context.
-        3. Format the extracted information as markdown.
-        4. Do not hallucinate any information that is not present in the context. If the requested information is not available, simply state "Information not found."
-        5. Output the markdown formatted information.
-
-        Question: {question}
-
-        Context: {context}
+        ### Instructions:
+        1. **Input:** You will receive:
+        - A **question** requesting specific financial details.
+        - A **context** representing a bank statement.
         
-        Helpful answer:
+        2. **Extraction Guidelines:**
+        - Identify and extract only the relevant financial details from the context.
+        - If the requested information is not found, return:  
+            ```
+            **Information not found.**
+            ```
+        - Do **not** add, assume, or hallucinate any data not present in the context.
+
+        3. **Markdown Formatting:**
+        - Always wrap the response in a ```markdown``` tag.
+        - Wrap extracted details in proper **Markdown syntax**.
+        - Use **bold** for key values, **lists** for structured data, and **tables** if multiple entries exist.
+        - Ensure the final response is **valid Markdown** and easy to read.
+
+        ---
+
+        #### **Question:**  
+        {question}
+
+        #### **Context:**  
+        {context}
     """
     
     
@@ -117,7 +131,10 @@ def get_custom_prompt():
 
 def get_chat_model():
     try:
-        chat_model = ChatVertexAI(model_name="gemini-2.0-flash-exp",project="planar-cistern-448818-f5")
+        chat_model = ChatVertexAI(
+            model_name="gemini-2.0-flash-exp",
+            project="planar-cistern-448818-f5",
+        )
         return chat_model
     except Exception as e:
         raise RuntimeError(f"Error initializing VertexAI Chat Model: {str(e)}")
@@ -413,3 +430,32 @@ def process_analyzer_response(message):
     except json.JSONDecodeError:
         print("Error: Response is not valid JSON")
         return None
+    
+
+def merge_dataframes(filtered_dataframes):
+    """
+    Merges DataFrames that have the same number of columns while keeping the header of the first one.
+
+    :param filtered_dataframes: Dictionary of DataFrames
+    :return: Merged DataFrame as JSON (or empty JSON if no valid DataFrames)
+    """
+    """
+    Merges DataFrames by keeping only the header of the first one.
+    
+    :param filtered_dataframes: Dictionary of DataFrames
+    :return: Merged DataFrame (or empty DataFrame if no valid DataFrames)
+    """
+    merged_data = []
+    first_df = None
+
+    for df in filtered_dataframes.values():
+        if first_df is None:
+            first_df = df.copy()  # Keep the first DataFrame with headers
+            merged_data.append(first_df)
+        elif df.shape[1] == first_df.shape[1]:
+            merged_data.append(df.values)  # Append only data (drop headers)
+
+    merged_df = pd.concat([first_df] + [pd.DataFrame(data, columns=first_df.columns) for data in merged_data[1:]], 
+                          ignore_index=True) if merged_data else pd.DataFrame()
+    return merged_df
+

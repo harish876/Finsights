@@ -7,7 +7,7 @@ import {
 
 const LoadingDashboardComponent: React.FC = () => {
   return (
-    <div className="container mx-auto p-6 bg-gray-100 min-h-screen">
+    <div className="container mx-auto p-6 bg-inherit min-h-screen">
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <SkeletonMetricCard />
         <SkeletonMetricCard />
@@ -17,9 +17,6 @@ const LoadingDashboardComponent: React.FC = () => {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-2xl font-semibold mb-6 text-gray-800">
-            Financial Insights
-          </h2>
           <div className="space-y-4">
             <SkeletonInsightItem />
             <SkeletonInsightItem />

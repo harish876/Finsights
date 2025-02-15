@@ -84,7 +84,7 @@ export default function CustomChat({ id }: { id: number }) {
   };
 
   return (
-    <ChatContainer className="flex-1 p-6">
+    <ChatContainer className="flex-1 p-6 overflow-y-auto">
       <div className="text-center space-y-6">
         <div className="w-16 h-16 rounded-full bg-casca-100 flex items-center justify-center mx-auto">
           <MessageSquare className="w-8 h-8 text-casca-500" />

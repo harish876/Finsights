@@ -38,33 +38,15 @@ import {
 } from "@/components/ui/resizable";
 
 export default function ConversationPage() {
-  function base64ToFile(base64, filename, mimeType) {
-    const byteString = atob(base64.split(",")[1]); // Remove the data URI part
-    const arrayBuffer = new ArrayBuffer(byteString.length);
-    const uint8Array = new Uint8Array(arrayBuffer);
-
-    for (let i = 0; i < byteString.length; i++) {
-      uint8Array[i] = byteString.charCodeAt(i);
-    }
-
-    return new File([uint8Array], filename, { type: mimeType });
-  }
-
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(2);
   const [zoom, setZoom] = useState(120);
   let { file } = useFileContext();
-  console.log(file);
 
   if (!file) {
-    const localFileObj = localStorage.getItem("file");
-    if (!localFileObj) {
-      console.log("Local file not found");
-      return;
-    }
-    const tmpFile = JSON.parse(localFileObj) as UploadFile;
-    console.log(tmpFile);
-    console.log(base64ToFile(tmpFile?.content, "default", "application/pdf"));
+    const fileObj = localStorage.getItem("file");
+    file = JSON.parse(fileObj) as UploadFile;
+    file.url = null;
   }
 
   const [showPdf, setShowPdf] = useState(true);
@@ -80,7 +62,9 @@ export default function ConversationPage() {
       myHeaders.append("Content-Type", "application/json");
       const response = await fetch("http://127.0.0.1:8000/api/v1/get_tables", {
         method: "POST",
-        body: JSON.stringify({ id: file?.id }),
+        body: JSON.stringify({
+          id: file?.id,
+        }),
         headers: myHeaders,
       });
 
@@ -104,10 +88,6 @@ export default function ConversationPage() {
 
   const fetchFinancialData = async () => {
     try {
-      if (!file?.id) {
-        alert("No Id present");
-        return;
-      }
       setInsightsLoading(true);
       const myHeaders = new Headers();
       myHeaders.append("accept", "application/json");
@@ -116,7 +96,9 @@ export default function ConversationPage() {
         "http://127.0.0.1:8000/api/v1/get_insights",
         {
           method: "POST",
-          body: JSON.stringify({ id: file?.id }),
+          body: JSON.stringify({
+            id: file?.id,
+          }),
           headers: myHeaders,
         }
       );
@@ -148,7 +130,6 @@ export default function ConversationPage() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-casca-50 via-white to-casca-100 flex flex-col">
       <Header />
-      {/* Sub-header */}
       <div className="border-b bg-white/80 backdrop-blur sticky top-0 z-10">
         <div className="px-4 py-2 flex items-center justify-between">
           <Link href="/" className="flex items-center">
@@ -226,7 +207,6 @@ export default function ConversationPage() {
             )}
           </div>
 
-          {/* PDF Content or Transactions Summary or Financial Insights */}
           {showInsights ? (
             insightsLoading == true ? (
               <LoadingDashboardComponent />
