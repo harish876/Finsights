@@ -1,6 +1,6 @@
 # AI-Powered Insights for Bank Statements
 
-This project efficiently analyzes bank statements using **FastAPI** and **Llama Parse**. It extracts transaction details, categorizes expenses, and generates financial insights. Made it as part of a hiring challenge for Cascading AI.
+This project efficiently analyzes bank statements using **FastAPI** and **Llama Parse**. It extracts transaction details using AI and a rule-based engine to extract specific markdown tables, categorizes expenses, and generates financial insights. Made it as part of a hiring challenge for Cascading AI.
 
 ## Demo
 Watch the demo video: [YouTube Link](https://youtu.be/lyeidC1sXhk)
